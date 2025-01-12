@@ -1,6 +1,15 @@
+'''
+Task # 03
+Password Complexity Checker
+
+
+
+
+
 import re
 
 def password_strength(password):
+#Define criteria for the password strength 
     Length = len(password)
     Uppercase = any(c.isupper() for c in password)
     Lowercase = any(c.islower() for c in password)
@@ -9,7 +18,7 @@ def password_strength(password):
 
     score = 0
     feedback = []
-
+#Access the strength of the password based on criteria
     if Length >= 12:
         score += 1
     elif Length >= 8:
@@ -38,6 +47,7 @@ def password_strength(password):
         return "Weak password. "+" ".join(feedback)
 
 if __name__ == "__main__":
+# Get the users input for the password
     print("You are welcome to password Complexity Checker")
     print("Enter your password blow")
 
@@ -47,4 +57,5 @@ if __name__ == "__main__":
             print("Exting...")
             break
         str_feedback = password_strength(password)
+# Check and provide feedback on the passwords complexity
         print(str_feedback)
